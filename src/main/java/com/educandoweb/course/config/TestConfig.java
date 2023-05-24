@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.OrderItem;
+import com.educandoweb.course.entities.Payment;
 import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.entities.enums.OrderStatus;
@@ -83,5 +84,14 @@ public class TestConfig implements CommandLineRunner {
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));	
 
+		//inserir pagamento para pedido com status PAID
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"),o1);
+		
+		//Para gravar um registro dependente de uma relação 1 para 1, não se chama o repositório,
+		//é feita a associação de mão dupla em memória.
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1);
+		
 	}
 }
